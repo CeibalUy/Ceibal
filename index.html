@@ -27,7 +27,7 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 img{display:block;max-width:100%}
-button,input{font:inherit;color:inherit}
+button,input,textarea{font:inherit;color:inherit}
 a{color:inherit;text-decoration:none}
 .wrap{width:min(1240px,100% - 28px);margin-inline:auto}
 
@@ -55,7 +55,7 @@ header.top{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
 
 /* LAYOUT */
 main{padding:20px 0 60px}
-.cols{display:grid;grid-template-columns:1fr 316px;gap:20px;align-items:start}
+.cols{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
 @media(max-width:900px){.cols{grid-template-columns:1fr}}
 
 .hero{border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin-bottom:18px;
@@ -107,9 +107,9 @@ h2.sec{font-size:13px;text-transform:uppercase;letter-spacing:1.3px;color:var(--
 /* SIDEBAR */
 aside{position:sticky;top:74px}
 @media(max-width:900px){aside{position:static}}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.panel .ph{padding:12px 14px;border-bottom:1px solid var(--line);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--mut);display:flex;justify-content:space-between}
-.clist{max-height:64vh;overflow:auto}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.panel .ph{padding:12px 14px;border-bottom:1px solid var(--line);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--mut);display:flex;justify-content:space-between;align-items:center}
+.clist{max-height:50vh;overflow:auto}
 .clist::-webkit-scrollbar{width:8px}
 .clist::-webkit-scrollbar-thumb{background:#1e2b38;border-radius:9px}
 .crow{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid #141e28;cursor:pointer;transition:.12s;background:none;border-left:0;border-right:0;border-top:0;width:100%;text-align:left}
@@ -118,6 +118,10 @@ aside{position:sticky;top:74px}
 .crow .nm{font-size:13.5px;font-weight:600;flex:1}
 .crow .pz{font-size:11px;color:var(--mut)}
 .crow .go{color:var(--mut);font-size:13px}
+
+.import-box{padding:12px 14px;background:#0c131b;border-top:1px solid var(--line)}
+.import-box textarea{width:100%;height:65px;background:#060a0f;border:1px solid var(--line);border-radius:8px;padding:8px;font-size:11.5px;resize:none;margin-bottom:8px}
+.import-box button{width:100%;padding:7px;background:var(--acc);color:#04140c;border:0;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px}
 
 .empty{padding:38px 18px;text-align:center;color:var(--mut);border:1px dashed var(--line);border-radius:var(--r)}
 
@@ -142,12 +146,6 @@ aside{position:sticky;top:74px}
 .hint{font-size:12px;color:var(--mut)}
 footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--mut);font-size:12.5px}
 footer b{color:var(--txt)}
-code{background:#0d151d;border:1px solid var(--line);padding:1px 5px;border-radius:5px;font-size:12px}
-
-/* EDITOR DE ENLACE */
-.edit-box{padding:10px 16px;background:#0a0f14;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center}
-.edit-box input{flex:1;padding:7px 10px;background:#05080b;border:1px solid var(--line);border-radius:8px;font-size:12.5px}
-.edit-box button{padding:7px 12px;background:var(--acc);color:#04140c;border:0;border-radius:8px;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
@@ -169,7 +167,7 @@ code{background:#0d151d;border:1px solid var(--line);padding:1px 5px;border-radi
     <div class="hero">
       <div>
         <h1>Fútbol en vivo, gratis y sin registro</h1>
-        <p>Elige un partido o un canal y míralo al instante. Múltiples fuentes y opciones por canal.</p>
+        <p>Elige un partido o canal funcional. Puedes añadir tus propias listas M3U abajo a la derecha.</p>
       </div>
       <div class="stat">
         <span class="pill live" id="pVivo">● 0 en vivo</span>
@@ -190,8 +188,12 @@ code{background:#0d151d;border:1px solid var(--line);padding:1px 5px;border-radi
 
       <aside>
         <div class="panel">
-          <div class="ph"><span>Canales en Vivo</span><span id="cCount"></span></div>
+          <div class="ph"><span>Canales Activos</span><span id="cCount"></span></div>
           <div class="clist" id="canales"></div>
+          <div class="import-box">
+            <textarea id="m3uInput" placeholder="Añadir canales (Ej: Nombre | https://enlace.m3u8)"></textarea>
+            <button id="btnImportar">➕ Agregar Canales</button>
+          </div>
         </div>
       </aside>
     </div>
@@ -200,7 +202,7 @@ code{background:#0d151d;border:1px solid var(--line);padding:1px 5px;border-radi
 
 <footer>
   <div class="wrap">
-    <b>Pelota Libre</b> — Haz clic en cualquier canal para ver la señal en directo o edita sus enlaces personalizados en el reproductor.
+    <b>Pelota Libre</b> — Los canales públicos cargan directamente en reproductor HLS. Puedes agregar más enlaces desde el panel lateral.
   </div>
 </footer>
 
@@ -209,16 +211,9 @@ code{background:#0d151d;border:1px solid var(--line);padding:1px 5px;border-radi
   <div class="mbox">
     <div class="mhead">
       <h3 id="mTitulo">—</h3>
-      <span class="hint" id="mNota"></span>
       <button class="x" data-close>✕</button>
     </div>
-    <div class="srcline" id="mFuentes">
-      <!-- Opciones y fuentes -->
-    </div>
-    <div class="edit-box" id="editBox" style="display:none;">
-      <input type="text" id="customUrlInput" placeholder="Pega aquí tu enlace iframe o .m3u8 personalizado...">
-      <button id="saveCustomUrl">Guardar enlace</button>
-    </div>
+    <div class="srcline" id="mFuentes"></div>
     <div class="frame">
       <div class="loading" id="mLoad">Cargando señal…</div>
       <iframe id="mIframe" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="no-referrer"></iframe>
@@ -226,160 +221,37 @@ code{background:#0d151d;border:1px solid var(--line);padding:1px 5px;border-radi
     </div>
     <div class="mfoot">
       <div class="mfoot-left">
-        <button class="btn ghost" id="btnToggleEdit" style="color:var(--acc); border-color:var(--acc);">⚙ Editar enlace de este canal</button>
         <a class="btn ghost" id="mExt" target="_blank" rel="noopener">Abrir en pestaña nueva ↗</a>
         <button class="btn ghost" id="mRec">↻ Recargar</button>
       </div>
-      <span class="hint">Si una opción no carga, cambia de fuente o añade tu propio enlace.</span>
+      <span class="hint">Si el enlace directo requiere permisos, usa el botón de abrir en pestaña nueva.</span>
     </div>
   </div>
 </div>
 
 <script>
 /* ==========================================================
-   1) CONFIGURACIÓN DE CANALES Y FUENTES REALES
+   CANALES FUNCIONALES HLS Y PÚBLICOS REALES
    ========================================================== */
-const CANALES = [
-  {
-    slug: "fifaplus", 
-    n: "FIFA+ (Partidos y Repeticiones)", 
-    p: "Global", 
-    urls: [
-      { n: "Oficial Web", url: "https://www.fifa.com/es/watch" },
-      { n: "Stream Alt", url: "https://www.youtube.com/@FIFAPlus/live" }
-    ]
-  },
-  {
-    slug: "teledeporte", 
-    n: "Teledeporte", 
-    p: "ES", 
-    urls: [
-      { n: "RTVE Directo", url: "https://www.rtve.es/play/videos/directo/teledeporte/" },
-      { n: "Stream 2", url: "https://ztnr.net/embed/teledeporte.php" }
-    ]
-  },
-  {
-    slug: "golplay", 
-    n: "Gol Play", 
-    p: "ES", 
-    urls: [
-      { n: "Oficial", url: "https://golplay.com/" },
-      { n: "Mirrior", url: "https://ztnr.net/embed/golplay.php" }
-    ]
-  },
-  {
-    slug: "espn", 
-    n: "ESPN", 
-    p: "MX · AR", 
-    urls: [
-      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=espn" },
-      { n: "Opción 2", url: "https://streamtp3.com/global1.php?stream=espn" },
-      { n: "Star+ Feed", url: "https://www.espn.com/" }
-    ]
-  },
-  {
-    slug: "espn2", 
-    n: "ESPN 2", 
-    p: "MX · AR", 
-    urls: [
-      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=espn2" },
-      { n: "Opción 2", url: "https://streamtp3.com/global1.php?stream=espn2" }
-    ]
-  },
-  {
-    slug: "espn3", 
-    n: "ESPN 3", 
-    p: "MX · AR", 
-    urls: [
-      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=espn3" },
-      { n: "Opción 2", url: "https://streamtp3.com/global1.php?stream=espn3" }
-    ]
-  },
-  {
-    slug: "espnpremium", 
-    n: "ESPN Premium", 
-    p: "AR", 
-    urls: [
-      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=espnpremium" },
-      { n: "Pack Fútbol", url: "https://streamtp3.com/global1.php?stream=espnpremium" }
-    ]
-  },
-  {
-    slug: "foxsports", 
-    n: "Fox Sports", 
-    p: "MX · AR", 
-    urls: [
-      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=foxsports" },
-      { n: "Opción 2", url: "https://streamtp3.com/global1.php?stream=foxsports" }
-    ]
-  },
-  {
-    slug: "tntsports", 
-    n: "TNT Sports", 
-    p: "AR · CL", 
-    urls: [
-      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=tntsports" },
-      { n: "Opción 2", url: "https://streamtp3.com/global1.php?stream=tntsports" }
-    ]
-  },
-  {
-    slug: "tycsports", 
-    n: "TyC Sports", 
-    p: "AR", 
-    urls: [
-      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=tycsports" },
-      { n: "TyC Play", url: "https://play.tycsports.com/" }
-    ]
-  },
-  {
-    slug: "dsports", 
-    n: "DSports", 
-    p: "Sudam.", 
-    urls: [
-      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=dsports" },
-      { n: "Opción 2", url: "https://streamtp3.com/global1.php?stream=dsports" }
-    ]
-  },
-  {
-    slug: "tudn", 
-    n: "TUDN", 
-    p: "MX · USA", 
-    urls: [
-      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=tudn" },
-      { n: "TUDN En Vivo", url: "https://www.tudn.com/" }
-    ]
-  },
-  {
-    slug: "winsports", 
-    n: "Win Sports+", 
-    p: "CO", 
-    urls: [
-      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=winsports" },
-      { n: "Win Online", url: "https://www.winsports.co/" }
-    ]
-  },
-  {
-    slug: "golperu", 
-    n: "Gol Perú", 
-    p: "PE", 
-    urls: [
-      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=golperu" }
-    ]
-  }
+const DEFAULT_CANALES = [
+  {slug:"realmadridtv", n:"Real Madrid TV", p:"ES", url:"https://stream.ads.ottera.tv/playlist.m3u8?network_id=1545"},
+  {slug:"redbulltv", n:"Red Bull TV Sports", p:"Global", url:"https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master_3360.m3u8"},
+  {slug:"fifaplus", n:"FIFA+ Live Feed", p:"Global", url:"https://www.fifa.com/es/watch"},
+  {slug:"teledeporte", n:"Teledeporte (RTVE)", p:"ES", url:"https://www.rtve.es/play/videos/directo/teledeporte/"},
+  {slug:"golplay", n:"Gol Play", p:"ES", url:"https://golplay.com/"},
+  {slug:"womenssports", n:"Fast Studios Womens Sports", p:"USA", url:"https://csm-e-eb.csm.tubi.video/csm/extlive/tubiprd01,Fast-Studios-Womens-Sports.m3u8"}
 ];
+
+// Cargar canales guardados en localStorage o usar los predeterminados
+let canalesPersonalizados = JSON.parse(localStorage.getItem('pl_canales_custom') || 'null');
+const CANALES = canalesPersonalizados || DEFAULT_CANALES;
 
 const PARTIDOS = [
-  {id:"m1", liga:"LaLiga", local:"Real Madrid", lc:541, visitante:"Barcelona", vc:529, horaHoy:"21:00", canales:["espn","daznlaliga","teledeporte"], destacado:true},
-  {id:"m2", liga:"Premier League", local:"Manchester City", lc:50, visitante:"Liverpool", vc:40, horaHoy:"12:30", canales:["espn","espn2","fifaplus"]},
-  {id:"m3", liga:"Serie A", local:"Inter", lc:505, visitante:"Juventus", vc:496, horaHoy:"14:45", canales:["espn2","foxsports"]},
-  {id:"m4", liga:"Liga Profesional AR", local:"Boca Juniors", lc:451, visitante:"River Plate", vc:435, horaHoy:"17:00", canales:["tycsports","tntsports","espnpremium"], destacado:true},
-  {id:"m5", liga:"Liga MX", local:"Club América", lc:2286, visitante:"Guadalajara", vc:2290, horaHoy:"20:00", canales:["tudn","espn"], destacado:true},
-  {id:"m6", liga:"Liga BetPlay", local:"Atlético Nacional", visitante:"Millonarios", horaHoy:"18:15", canales:["winsports","dsports"]}
+  {id:"m1", liga:"LaLiga", local:"Real Madrid", lc:541, visitante:"Barcelona", vc:529, horaHoy:"21:00", canales:["realmadridtv","teledeporte","golplay"], destacado:true},
+  {id:"m2", liga:"Eventos Globales", local:"Red Bull Arena", visitante:"Stream Deportivo", vc:0, horaHoy:"15:00", canales:["redbulltv","fifaplus"], destacado:true},
+  {id:"m3", liga:"Fútbol Femenino", local:"Global Series", visitante: "Womens League", vc:0, horaHoy:"18:00", canales:["womenssports"]}
 ];
 
-/* ==========================================================
-   2) LÓGICA Y GESTIÓN DE ENLACES
-   ========================================================== */
 const $= (s,r=document)=>r.querySelector(s); const$$ = (s,r=document)=>[...r.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const LS = {
@@ -387,75 +259,51 @@ const LS = {
   set:(k,v)=>{try{localStorage.setItem('pl_'+k,JSON.stringify(v))}catch{}}
 };
 
-const estado = {q:"", filtro:"todos", favs:LS.get('favs',[]), customUrls:LS.get('custom_urls',{})};
+const estado = {q:"", filtro:"todos", favs:LS.get('favs',[])};
 const canalById = id => CANALES.find(c=>c.slug===id);
-
-function fuentesCanal(c){
-  let lista = [];
-  // Si el usuario guardó un enlace personalizado, va primero
-  if(estado.customUrls[c.slug]){
-    lista.push({n:'⭐ Personalizado', url: estado.customUrls[c.slug]});
-  }
-  // Añadir las fuentes predefinidas del canal
-  if(c.urls && c.urls.length){
-    c.urls.forEach(u => lista.push(u));
-  }
-  return lista;
-}
 
 function inicio(p){
   if(p.horaHoy){ const [h,m]=p.horaHoy.split(':').map(Number); const d=new Date();
-    d.setHours(h,m,0,0); d.setDate(d.getDate()+(p.diaOffset||0)); return d.getTime(); }
-  return new Date(p.hora).getTime();
+    d.setHours(h,m,0,0); return d.getTime(); }
+  return Date.now();
 }
 function fase(p){
-  const t=inicio(p), now=Date.now(), dur=(p.duracionMin||120)*60000;
+  const t=inicio(p), now=Date.now(), dur=120*60000;
   if(now < t-20*60000) return 'pronto';
   if(now <= t+dur) return 'vivo';
   return 'fin';
 }
 const hhmm = p => new Date(inicio(p)).toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
 
-function crest(nombre, id){
-  const ini = nombre.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  if(!id) return `<div class="crest">${ini}</div>`;
-  return `<div class="crest"><img src="https://media.api-sports.io/football/teams/${id}.png" alt="" loading="lazy"
-    onerror="this.parentNode.textContent='${ini}'"></div>`;
-}
-
 function renderPartidos(){
   const cont=$('#lista');
   const q=estado.q.trim().toLowerCase();
   let list=PARTIDOS.slice();
-  if(q) list=list.filter(p=>(p.liga+' '+p.local+' '+p.visitante+' '+p.canales.join(' ')).toLowerCase().includes(q));
+  if(q) list=list.filter(p=>(p.liga+' '+p.local+' '+p.visitante).toLowerCase().includes(q));
   if(estado.filtro==='vivo') list=list.filter(p=>fase(p)==='vivo');
   if(estado.filtro==='favs') list=list.filter(p=>estado.favs.includes(p.id));
-  list.sort((a,b)=>inicio(a)-inicio(b));
 
-  $('#tituloLista').textContent = q ? `Resultados para "${estado.q}"` : (estado.filtro==='vivo'?'En vivo ahora':estado.filtro==='favs'?'Tus favoritos':'Partidos de hoy');
-  $('#pTotal').textContent = list.length+' partidos';
+  $('#tituloLista').textContent = q ? `Resultados para "${estado.q}"` : 'Partidos y Eventos Disponibles';
+  $('#pTotal').textContent = list.length+' eventos';
   $('#pVivo').textContent = '● '+PARTIDOS.filter(p=>fase(p)==='vivo').length+' en vivo';
 
-  if(!list.length){ cont.innerHTML=`<div class="empty">No hay partidos que coincidan. Prueba otro filtro o borra la búsqueda.</div>`; return; }
+  if(!list.length){ cont.innerHTML=`<div class="empty">No hay partidos disponibles con este filtro.</div>`; return; }
 
   cont.innerHTML = list.map(p=>{
     const f=fase(p);
-    const badge = f==='vivo'?`<span class="badge vivo">EN VIVO</span>`
-                : f==='pronto'?`<span class="badge pronto">${hhmm(p)}</span>`
-                : `<span class="badge fin">FINAL</span>`;
+    const badge = `<span class="badge vivo">DISPONIBLE</span>`;
     const fav = estado.favs.includes(p.id);
     const primerCanal = canalById(p.canales[0]);
     return `<article class="card ${p.destacado?'dest':''}">
       <div class="meta"><span class="liga">${esc(p.liga)}</span>${badge}</div>
       <div class="teams">
-        <div class="team">${crest(p.local,p.lc)}<b>${esc(p.local)}</b></div>
+        <div class="team"><div class="crest">⚽</div><b>${esc(p.local)}</b></div>
         <div class="vs">VS</div>
-        <div class="team">${crest(p.visitante,p.vc)}<b>${esc(p.visitante)}</b></div>
+        <div class="team"><div class="crest">⚽</div><b>${esc(p.visitante)}</b></div>
       </div>
-      <div class="hora">${hhmm(p)} hs</div>
+      <div class="hora">Canales: ${p.canales.map(id => (canalById(id)||{n:id}).n).join(' · ')}</div>
       <div class="actions">
-        <button class="btn pri" data-ver="${p.id}">▶ Ver partido</button>
-        <button class="btn ghost" data-canal="${p.canales[0]||''}">${esc((primerCanal||{n:'Canal'}).n)}</button>
+        <button class="btn pri" data-ver="${p.id}">▶ Ver Transmisión</button>
         <button class="favstar ${fav?'on':''}" data-fav="${p.id}" title="Favorito">★</button>
       </div>
     </article>`;
@@ -470,17 +318,14 @@ function renderCanales(){
     </button>`).join('');
 }
 
-/* ---------- REPRODUCTOR & MODAL ---------- */
-let cur={f:[],i:0, slug:''}, timer=null, hlsInstance=null;
+let cur={f:[],i:0}, timer=null, hlsInstance=null;
 
-function abrir(titulo, fuentes, slug=''){
-  cur={f:fuentes, i:0, slug:slug};
+function abrir(titulo, fuentes){
+  cur={f:fuentes, i:0};
   $('#mTitulo').textContent=titulo;
-  $('#editBox').style.display='none';
-  $('#customUrlInput').value = (slug && estado.customUrls[slug]) ? estado.customUrls[slug] : '';
-  pintarFuentes(); 
+  pintarFuentes();
   cargar(0);
-  $('#modal').hidden=false; 
+  $('#modal').hidden=false;
   document.body.style.overflow='hidden';
 }
 
@@ -496,11 +341,10 @@ function cargar(i){
   fr.style.display='none';
   vd.style.display='none';
   if(hlsInstance){ hlsInstance.destroy(); hlsInstance=null; }
-  vd.pause();
-  vd.src='';
+  vd.pause(); vd.src='';
 
-  $('#mLoad').hidden=false; 
-  $('#mLoad').textContent='Cargando señal…';
+  $('#mLoad').hidden=false;
+  $('#mLoad').textContent='Cargando señal...';
   $('#mExt').href=f.url;
   pintarFuentes();
 
@@ -521,100 +365,77 @@ function cargar(i){
       fr.style.display='block';
       fr.src=f.url;
     }
-  }, 60);
-
-  clearTimeout(timer);
-  timer=setTimeout(()=>{ $('#mLoad').textContent='Si la señal no carga, prueba otra opción o edita el enlace.'; }, 8000);
+  }, 50);
 }
-
-$('#mIframe').addEventListener('load',()=>{ clearTimeout(timer); $('#mLoad').hidden=true; });
-
-function verPartido(p){
-  const fs=[]; 
-  p.canales.forEach(id=>{
-    const c=canalById(id); 
-    if(c){
-      fuentesCanal(c).forEach((f, idx)=>{
-        fs.push({n: c.n + (idx > 0 ? ' ('+f.n+')' : ''), url: f.url, slug: c.slug});
-      });
-    }
-  });
-  abrir(`${p.local} vs ${p.visitante} — ${p.liga}`, fs, p.canales[0]||'');
-}
-
-/* ---------- EVENTOS Y LISTENERS ---------- */
-$('#lista').addEventListener('click',e=>{
-  const v=e.target.closest('[data-ver]'), c=e.target.closest('[data-canal]'), fv=e.target.closest('[data-fav]');
-  if(v){ const p=PARTIDOS.find(x=>x.id===v.dataset.ver); if(p) verPartido(p); }
-  else if(c && c.dataset.canal){ const ch=canalById(c.dataset.canal); if(ch) abrir(ch.n, fuentesCanal(ch), ch.slug); }
-  else if(fv){ const id=fv.dataset.fav;
-    estado.favs = estado.favs.includes(id)? estado.favs.filter(x=>x!==id) : [...estado.favs,id];
-    LS.set('favs',estado.favs); renderPartidos(); }
-});
-
-$('#canales').addEventListener('click',e=>{
-  const b=e.target.closest('[data-canal]'); if(!b) return;
-  const ch=canalById(b.dataset.canal); if(ch) abrir(ch.n, fuentesCanal(ch), ch.slug);
-});
 
 $('#mFuentes').addEventListener('click',e=>{const b=e.target.closest('[data-i]'); if(b) cargar(+b.dataset.i)});
 $('#mRec').addEventListener('click',()=>cargar(cur.i));
 
-$('#btnToggleEdit').addEventListener('click',()=>{
-  const box = $('#editBox');
-  box.style.display = box.style.display==='none' ? 'flex' : 'none';
+$('#lista').addEventListener('click',e=>{
+  const v=e.target.closest('[data-ver]'), fv=e.target.closest('[data-fav]');
+  if(v){
+    const p=PARTIDOS.find(x=>x.id===v.dataset.ver);
+    if(p){
+      const fs = p.canales.map(id => {
+        const c = canalById(id);
+        return c ? {n: c.n, url: c.url} : null;
+      }).filter(Boolean);
+      abrir(p.local + " vs " + p.visitante, fs);
+    }
+  } else if(fv){
+    const id=fv.dataset.fav;
+    estado.favs = estado.favs.includes(id)? estado.favs.filter(x=>x!==id) : [...estado.favs,id];
+    LS.set('favs',estado.favs); renderPartidos();
+  }
 });
 
-$('#saveCustomUrl').addEventListener('click',()=>{
-  const val = $('#customUrlInput').value.trim();
-  let slug = cur.slug;
-  if(slug){
-    if(val) {
-      estado.customUrls[slug] = val;
-    } else {
-      delete estado.customUrls[slug];
+$('#canales').addEventListener('click',e=>{
+  const b=e.target.closest('[data-canal]'); if(!b) return;
+  const ch=canalById(b.dataset.canal);
+  if(ch) abrir(ch.n, [{n: ch.n, url: ch.url}]);
+});
+
+// Importador masivo de canales
+$('#btnImportar').addEventListener('click',()=>{
+  const val = $('#m3uInput').value.trim();
+  if(!val) return;
+  const lines = val.split('\n');
+  lines.forEach(l=>{
+    const parts = l.split('|');
+    if(parts.length >= 2){
+      const name = parts[0].trim();
+      const url = parts[1].trim();
+      const slug = name.toLowerCase().replace(/[^a-z0-9]/g,'');
+      if(!CANALES.some(c=>c.slug===slug)){
+        CANALES.push({slug, n: name, p: "Custom", url});
+      }
     }
-    LS.set('custom_urls', estado.customUrls);
-    const ch = canalById(slug);
-    if(ch){
-      cur.f = fuentesCanal(ch);
-      pintarFuentes();
-      cargar(0);
-    }
-    $('#editBox').style.display='none'; alert('¡Enlace personalizado guardado con éxito!'); } });  $$('[data-close]').forEach(el=>el.addEventListener('click',()=>{$('#modal').hidden=true; 
-  $('#mIframe').src='about:blank';
-  $('#mVideo').pause();
+  });
+  localStorage.setItem('pl_canales_custom', JSON.stringify(CANALES));
+  renderCanales();
+  $('#m3uInput').value=''; alert('¡Canales agregados con éxito!'); });  $$('[data-close]').forEach(el=>el.addEventListener('click',()=>{$('#modal').hidden=true;
+  $('#mIframe').src='about:blank'; $('#mVideo').pause();
   if(hlsInstance){ hlsInstance.destroy(); hlsInstance=null; }
   document.body.style.overflow='';
 }));
 
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){ 
-    $('#modal').hidden=true; 
-    $('#mIframe').src='about:blank';
-    $('#mVideo').pause();
-    if(hlsInstance){ hlsInstance.destroy(); hlsInstance=null; }
-    document.body.style.overflow=''; 
-  }
+  if(e.key==='Escape'){ $('#modal').hidden=true; $('#mIframe').src='about:blank'; $('#mVideo').pause(); if(hlsInstance){hlsInstance.destroy();hlsInstance=null;} document.body.style.overflow=''; }
   if(e.key==='/' && document.activeElement!==$('#q')){ e.preventDefault(); $('#q').focus(); }
 });
 
 $('#q').addEventListener('input',e=>{estado.q=e.target.value; renderPartidos()});
-
 $$('.tab').forEach(t=>t.addEventListener('click',()=>{$$
 ('.tab').forEach(x=>x.classList.remove('on')); t.classList.add('on'); estado.filtro=t.dataset.f; renderPartidos();
 }));
 
 $('#btnFav').addEventListener('click',()=>{ $('#btnFav').classList.toggle('on');
-  const on=$('#btnFav').classList.contains('on'); estado.filtro = on?'favs':(estado.filtro==='favs'?'todos':estado.filtro); $$('.tab').forEach(x=>x.classList.toggle('on', x.dataset.f===estado.filtro)); renderPartidos(); });
-
+  const on=$('#btnFav').classList.contains('on'); estado.filtro = on?'favs':'todos'; renderPartidos(); });
 $('#btnVivo').addEventListener('click',()=>{ $('#btnVivo').classList.toggle('on');
-  const on=$('#btnVivo').classList.contains('on'); estado.filtro = on?'vivo':(estado.filtro==='vivo'?'todos':estado.filtro); $$('.tab').forEach(x=>x.classList.toggle('on', x.dataset.f===estado.filtro)); renderPartidos(); });
+  const on=$('#btnVivo').classList.contains('on'); estado.filtro = on?'vivo':'todos'; renderPartidos(); });
 
-/* ---------- RELOJ + AUTO REFRESCO ---------- */
 setInterval(()=>{ $('#reloj').textContent = new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}); },1000);
-$('#reloj').textContent = new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'});
-setInterval(renderPartidos, 60000);
+$('#reloj').textContent = new Date().toLocaleTimeString('es',{hour:`2-digit`,minute:'2-digit'});
 
 renderCanales(); renderPartidos();
 </script>
