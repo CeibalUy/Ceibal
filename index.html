@@ -169,7 +169,7 @@ code{background:#0d151d;border:1px solid var(--line);padding:1px 5px;border-radi
     <div class="hero">
       <div>
         <h1>Fútbol en vivo, gratis y sin registro</h1>
-        <p>Elige un partido o un canal y míralo al instante. Varias opciones por canal por si una falla.</p>
+        <p>Elige un partido o un canal y míralo al instante. Múltiples fuentes y opciones por canal.</p>
       </div>
       <div class="stat">
         <span class="pill live" id="pVivo">● 0 en vivo</span>
@@ -190,7 +190,7 @@ code{background:#0d151d;border:1px solid var(--line);padding:1px 5px;border-radi
 
       <aside>
         <div class="panel">
-          <div class="ph"><span>Canales</span><span id="cCount"></span></div>
+          <div class="ph"><span>Canales en Vivo</span><span id="cCount"></span></div>
           <div class="clist" id="canales"></div>
         </div>
       </aside>
@@ -200,7 +200,7 @@ code{background:#0d151d;border:1px solid var(--line);padding:1px 5px;border-radi
 
 <footer>
   <div class="wrap">
-    <b>Pelota Libre</b> — edita enlaces personalizados haciendo clic en cualquier canal o usa el editor en el reproductor.
+    <b>Pelota Libre</b> — Haz clic en cualquier canal para ver la señal en directo o edita sus enlaces personalizados en el reproductor.
   </div>
 </footer>
 
@@ -213,7 +213,7 @@ code{background:#0d151d;border:1px solid var(--line);padding:1px 5px;border-radi
       <button class="x" data-close>✕</button>
     </div>
     <div class="srcline" id="mFuentes">
-      <!-- Opciones y botón de editar enlace -->
+      <!-- Opciones y fuentes -->
     </div>
     <div class="edit-box" id="editBox" style="display:none;">
       <input type="text" id="customUrlInput" placeholder="Pega aquí tu enlace iframe o .m3u8 personalizado...">
@@ -230,70 +230,157 @@ code{background:#0d151d;border:1px solid var(--line);padding:1px 5px;border-radi
         <a class="btn ghost" id="mExt" target="_blank" rel="noopener">Abrir en pestaña nueva ↗</a>
         <button class="btn ghost" id="mRec">↻ Recargar</button>
       </div>
-      <span class="hint">Si una opción no carga, cambia de fuente o añade un enlace propio.</span>
+      <span class="hint">Si una opción no carga, cambia de fuente o añade tu propio enlace.</span>
     </div>
   </div>
 </div>
 
 <script>
 /* ==========================================================
-   1) CONFIGURACIÓN Y CANALES
+   1) CONFIGURACIÓN DE CANALES Y FUENTES REALES
    ========================================================== */
-const MIRRORS = [
-  "https://streamtp4.com/global1.php?stream=",
-  "https://streamtp3.com/global1.php?stream=",
-  "https://streamtp2.com/global1.php?stream=",
-  "https://streamtp.com/global1.php?stream="
-];
-
 const CANALES = [
-  {slug:"espn", n:"ESPN", p:"MX · AR"},
-  {slug:"espn2", n:"ESPN 2", p:"MX · AR"},
-  {slug:"espn3", n:"ESPN 3", p:"MX · AR"},
-  {slug:"espnpremium", n:"ESPN Premium", p:"AR"},
-  {slug:"foxsports", n:"Fox Sports", p:"MX · AR"},
-  {slug:"foxsports2", n:"Fox Sports 2", p:"MX"},
-  {slug:"foxsports3", n:"Fox Sports 3", p:"MX"},
-  {slug:"foxsportspremium", n:"Fox Sports Premium", p:"AR"},
-  {slug:"tntsports", n:"TNT Sports", p:"AR · CL"},
-  {slug:"tntsports2", n:"TNT Sports 2", p:"AR"},
-  {slug:"tycsports", n:"TyC Sports", p:"AR"},
-  {slug:"dsports", n:"DSports", p:"Sudam."},
-  {slug:"dsports2", n:"DSports 2", p:"Sudam."},
-  {slug:"directvsports", n:"DirecTV Sports", p:"LatAm"},
-  {slug:"tudn", n:"TUDN", p:"MX · USA"},
-  {slug:"azteca7", n:"Azteca 7", p:"MX"},
-  {slug:"canal5", n:"Canal 5", p:"MX"},
-  {slug:"golplay", n:"Gol Play", p:"ES"},
-  {slug:"teledeporte", n:"Teledeporte", p:"ES"},
-  {slug:"movistardeportes", n:"Movistar Deportes", p:"ES · PE"},
-  {slug:"daznlaliga", n:"DAZN LaLiga", p:"ES"},
-  {slug:"winsports", n:"Win Sports+", p:"CO"},
-  {slug:"golperu", n:"Gol Perú", p:"PE"},
-  {slug:"skysports", n:"Sky Sports", p:"UK"},
-  {slug:"tntsportsuk", n:"TNT Sports UK", p:"UK"},
-  {slug:"beinsports", n:"beIN Sports", p:"USA · MENA"}
+  {
+    slug: "fifaplus", 
+    n: "FIFA+ (Partidos y Repeticiones)", 
+    p: "Global", 
+    urls: [
+      { n: "Oficial Web", url: "https://www.fifa.com/es/watch" },
+      { n: "Stream Alt", url: "https://www.youtube.com/@FIFAPlus/live" }
+    ]
+  },
+  {
+    slug: "teledeporte", 
+    n: "Teledeporte", 
+    p: "ES", 
+    urls: [
+      { n: "RTVE Directo", url: "https://www.rtve.es/play/videos/directo/teledeporte/" },
+      { n: "Stream 2", url: "https://ztnr.net/embed/teledeporte.php" }
+    ]
+  },
+  {
+    slug: "golplay", 
+    n: "Gol Play", 
+    p: "ES", 
+    urls: [
+      { n: "Oficial", url: "https://golplay.com/" },
+      { n: "Mirrior", url: "https://ztnr.net/embed/golplay.php" }
+    ]
+  },
+  {
+    slug: "espn", 
+    n: "ESPN", 
+    p: "MX · AR", 
+    urls: [
+      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=espn" },
+      { n: "Opción 2", url: "https://streamtp3.com/global1.php?stream=espn" },
+      { n: "Star+ Feed", url: "https://www.espn.com/" }
+    ]
+  },
+  {
+    slug: "espn2", 
+    n: "ESPN 2", 
+    p: "MX · AR", 
+    urls: [
+      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=espn2" },
+      { n: "Opción 2", url: "https://streamtp3.com/global1.php?stream=espn2" }
+    ]
+  },
+  {
+    slug: "espn3", 
+    n: "ESPN 3", 
+    p: "MX · AR", 
+    urls: [
+      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=espn3" },
+      { n: "Opción 2", url: "https://streamtp3.com/global1.php?stream=espn3" }
+    ]
+  },
+  {
+    slug: "espnpremium", 
+    n: "ESPN Premium", 
+    p: "AR", 
+    urls: [
+      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=espnpremium" },
+      { n: "Pack Fútbol", url: "https://streamtp3.com/global1.php?stream=espnpremium" }
+    ]
+  },
+  {
+    slug: "foxsports", 
+    n: "Fox Sports", 
+    p: "MX · AR", 
+    urls: [
+      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=foxsports" },
+      { n: "Opción 2", url: "https://streamtp3.com/global1.php?stream=foxsports" }
+    ]
+  },
+  {
+    slug: "tntsports", 
+    n: "TNT Sports", 
+    p: "AR · CL", 
+    urls: [
+      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=tntsports" },
+      { n: "Opción 2", url: "https://streamtp3.com/global1.php?stream=tntsports" }
+    ]
+  },
+  {
+    slug: "tycsports", 
+    n: "TyC Sports", 
+    p: "AR", 
+    urls: [
+      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=tycsports" },
+      { n: "TyC Play", url: "https://play.tycsports.com/" }
+    ]
+  },
+  {
+    slug: "dsports", 
+    n: "DSports", 
+    p: "Sudam.", 
+    urls: [
+      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=dsports" },
+      { n: "Opción 2", url: "https://streamtp3.com/global1.php?stream=dsports" }
+    ]
+  },
+  {
+    slug: "tudn", 
+    n: "TUDN", 
+    p: "MX · USA", 
+    urls: [
+      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=tudn" },
+      { n: "TUDN En Vivo", url: "https://www.tudn.com/" }
+    ]
+  },
+  {
+    slug: "winsports", 
+    n: "Win Sports+", 
+    p: "CO", 
+    urls: [
+      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=winsports" },
+      { n: "Win Online", url: "https://www.winsports.co/" }
+    ]
+  },
+  {
+    slug: "golperu", 
+    n: "Gol Perú", 
+    p: "PE", 
+    urls: [
+      { n: "Opción 1", url: "https://streamtp4.com/global1.php?stream=golperu" }
+    ]
+  }
 ];
 
 const PARTIDOS = [
-  {id:"m1", liga:"LaLiga", local:"Real Madrid", lc:541, visitante:"Barcelona", vc:529, horaHoy:"21:00", canales:["daznlaliga","espn","movistardeportes"], destacado:true},
-  {id:"m2", liga:"Premier League", local:"Manchester City", lc:50, visitante:"Liverpool", vc:40, horaHoy:"12:30", canales:["espn","skysports","tntsportsuk"]},
+  {id:"m1", liga:"LaLiga", local:"Real Madrid", lc:541, visitante:"Barcelona", vc:529, horaHoy:"21:00", canales:["espn","daznlaliga","teledeporte"], destacado:true},
+  {id:"m2", liga:"Premier League", local:"Manchester City", lc:50, visitante:"Liverpool", vc:40, horaHoy:"12:30", canales:["espn","espn2","fifaplus"]},
   {id:"m3", liga:"Serie A", local:"Inter", lc:505, visitante:"Juventus", vc:496, horaHoy:"14:45", canales:["espn2","foxsports"]},
-  {id:"m4", liga:"Bundesliga", local:"Bayern Múnich", lc:157, visitante:"Borussia Dortmund", vc:165, horaHoy:"11:30", canales:["foxsports2","espn3"]},
-  {id:"m5", liga:"Liga MX", local:"Club América", lc:2286, visitante:"Guadalajara", vc:2290, horaHoy:"20:00", canales:["tudn","azteca7","canal5"], destacado:true},
-  {id:"m6", liga:"Liga Profesional AR", local:"Boca Juniors", lc:451, visitante:"River Plate", vc:435, horaHoy:"17:00", canales:["tycsports","tntsports","espnpremium"], destacado:true},
-  {id:"m7", liga:"Brasileirão", local:"Flamengo", lc:127, visitante:"Palmeiras", vc:121, horaHoy:"19:30", canales:["dsports","espn2"]},
-  {id:"m8", liga:"Ligue 1", local:"PSG", lc:85, visitante:"Marsella", vc:81, horaHoy:"15:00", canales:["dsports2","espn3"]},
-  {id:"m9", liga:"Champions League", local:"Arsenal", lc:42, visitante:"Bayern Múnich", vc:157, horaHoy:"16:00", canales:["tntsports","espn","beinsports"]},
-  {id:"m10", liga:"Liga BetPlay", local:"Atlético Nacional", visitante:"Millonarios", horaHoy:"18:15", canales:["winsports","dsports"]},
-  {id:"m11", liga:"Liga 1 Perú", local:"Alianza Lima", visitante:"Universitario", horaHoy:"20:30", canales:["golperu"]},
-  {id:"m12", liga:"Premier League", local:"Chelsea", lc:49, visitante:"Arsenal", vc:42, horaHoy:"09:00", canales:["espn","skysports"]}
+  {id:"m4", liga:"Liga Profesional AR", local:"Boca Juniors", lc:451, visitante:"River Plate", vc:435, horaHoy:"17:00", canales:["tycsports","tntsports","espnpremium"], destacado:true},
+  {id:"m5", liga:"Liga MX", local:"Club América", lc:2286, visitante:"Guadalajara", vc:2290, horaHoy:"20:00", canales:["tudn","espn"], destacado:true},
+  {id:"m6", liga:"Liga BetPlay", local:"Atlético Nacional", visitante:"Millonarios", horaHoy:"18:15", canales:["winsports","dsports"]}
 ];
 
 /* ==========================================================
    2) LÓGICA Y GESTIÓN DE ENLACES
    ========================================================== */
-const $  = (s,r=document)=>r.querySelector(s); const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const $= (s,r=document)=>r.querySelector(s); const$$ = (s,r=document)=>[...r.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const LS = {
   get:(k,d)=>{try{const v=JSON.parse(localStorage.getItem('pl_'+k));return v??d}catch{return d}},
@@ -305,14 +392,14 @@ const canalById = id => CANALES.find(c=>c.slug===id);
 
 function fuentesCanal(c){
   let lista = [];
-  // Si el usuario guardó un enlace personalizado para este canal, lo ponemos primero
+  // Si el usuario guardó un enlace personalizado, va primero
   if(estado.customUrls[c.slug]){
     lista.push({n:'⭐ Personalizado', url: estado.customUrls[c.slug]});
   }
-  // Añadir espejos predeterminados
-  MIRRORS.forEach((m,i)=>{
-    lista.push({n:'Opción '+(i+1), url: m + c.slug});
-  });
+  // Añadir las fuentes predefinidas del canal
+  if(c.urls && c.urls.length){
+    c.urls.forEach(u => lista.push(u));
+  }
   return lista;
 }
 
@@ -405,7 +492,6 @@ function cargar(i){
   const f=cur.f[i]; if(!f) return; cur.i=i;
   const fr=$('#mIframe'), vd=$('#mVideo');
   
-  // Limpiar reproductor anterior
   fr.src='about:blank';
   fr.style.display='none';
   vd.style.display='none';
@@ -481,12 +567,7 @@ $('#btnToggleEdit').addEventListener('click',()=>{
 
 $('#saveCustomUrl').addEventListener('click',()=>{
   const val = $('#customUrlInput').value.trim();
-  // Determinar el slug actual del canal activo
   let slug = cur.slug;
-  if(!slug && cur.f[cur.i]) {
-    // Intentar deducir el slug
-    slug = CANALES[0].slug;
-  }
   if(slug){
     if(val) {
       estado.customUrls[slug] = val;
@@ -494,7 +575,6 @@ $('#saveCustomUrl').addEventListener('click',()=>{
       delete estado.customUrls[slug];
     }
     LS.set('custom_urls', estado.customUrls);
-    // Recargar fuentes para este canal
     const ch = canalById(slug);
     if(ch){
       cur.f = fuentesCanal(ch);
